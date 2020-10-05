@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System;
 using Xunit;
 
@@ -23,9 +24,10 @@ namespace visit_canton_coders_tests
     public class UnitTest1
     {
         [Fact]
-        public void Test1()
+        public void ILiveInCantonAndMattLivesinBirmingham()
         {
-            
+            CantonCoderVisitor visitor = new CantonCoderVisitor("joel");
+            visitor.getList().Should().Be("Matt");
         }
     }
 }
