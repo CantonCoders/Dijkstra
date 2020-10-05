@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace visit_canton_coders_tests
@@ -24,10 +25,66 @@ namespace visit_canton_coders_tests
     public class UnitTest1
     {
         [Fact]
-        public void ILiveInCantonAndMattLivesinBirmingham()
+        public void JoelMatt()
         {
-            CantonCoderVisitor visitor = new CantonCoderVisitor("joel");
-            visitor.getList().Should().Be("Matt");
+            var matt = new Person(new Location(string.Empty));
+
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { matt});
+            visitor.getRoute().Should().ContainInOrder(new[] { matt });
         }
+        [Fact]
+        public void JoelMattArtie()
+        {
+            var joel = new Person(new Location(string.Empty));
+            var artie = new Person(new Location(string.Empty));
+
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { joel, artie });
+            visitor.getRoute().Should().ContainInOrder(new[] { joel, artie });
+        }
+        [Fact]
+        public void ArtieJoelMatt()
+        {
+            var artie = new Person(new Location(string.Empty));
+            var joel = new Person(new Location(string.Empty));
+            var matt = new Person(new Location(string.Empty));
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { joel, matt });
+            visitor.getRoute().Should().ContainInOrder(new[] {joel, matt });
+        }
+
+        [Fact]
+        public void ArtieBryanMattJoel()
+        {
+            var birmingham = new Location("Birmingham");
+            var canton = new Location("Canton", birmingham);
+            var bentonville = new Location("Bentonville", canton);
+            var austin = new Location("Austin", bentonville);
+
+            var artie = new Person(austin);
+            var joel = new Person(canton);
+            var matt = new Person(birmingham);
+            var bryan = new Person(bentonville);
+
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { joel, matt,bryan });
+            visitor.getRoute(artie).Should().ContainInOrder(new[] { bryan, joel, matt });
+
+        }
+
+
+
+        [Fact]
+        public void Test_People()
+        {
+            var nextLocation = new Location("Texas");
+            var location = new Location("Hollywoo", nextLocation);
+
+            location.NextLocation.Should().Be(nextLocation);
+            Person person = new Person(location);
+            person.Location.Should().Be(location);
+            person.Should().NotBeNull();
+
+
+        }
+
+
     }
 }
