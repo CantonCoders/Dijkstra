@@ -1,4 +1,4 @@
-# Dijkstra
+# Let's See The Community IRL
 
 [Read More on Wikipedia](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 
