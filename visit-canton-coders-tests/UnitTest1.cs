@@ -24,35 +24,41 @@ namespace visit_canton_coders_tests
      */
     public class UnitTest1
     {
-        [Fact]
-        public void JoelMatt()
+        [Fact
+            ]
+        public void JoelGoVisitMatt()
         {
-            var matt = new Person(new Location(string.Empty));
+            var locationconnectedtocanton = new Location("Belleville");
+            var canton = new Location("Canton", locationconnectedtocanton);
+
+            var joel = new Person(canton);
+
+            var matt = new Person(locationconnectedtocanton);
 
             CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { matt});
-            visitor.getRoute().Should().ContainInOrder(new[] { matt });
+            visitor.getRoute(joel).Should().ContainInOrder(new[] { matt });
         }
         [Fact]
-        public void JoelMattArtie()
+        public void ArtieGoVisit_JoelMatt()
         {
-            var joel = new Person(new Location(string.Empty));
-            var artie = new Person(new Location(string.Empty));
+            var birmingham = new Location("Birmingham");
+            var canton = new Location("Canton", birmingham);
+            var austin = new Location("Austin", canton);
 
-            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { joel, artie });
-            visitor.getRoute().Should().ContainInOrder(new[] { joel, artie });
-        }
-        [Fact]
-        public void ArtieJoelMatt()
-        {
-            var artie = new Person(new Location(string.Empty));
-            var joel = new Person(new Location(string.Empty));
-            var matt = new Person(new Location(string.Empty));
-            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { joel, matt });
-            visitor.getRoute().Should().ContainInOrder(new[] {joel, matt });
-        }
 
-        [Fact]
-        public void ArtieBryanMattJoel()
+
+            var joel = new Person(canton);
+            var artie = new Person(austin);
+            var matt = new Person(birmingham);
+
+
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { joel, artie, matt });
+            visitor.getRoute(artie).Should().ContainInOrder(new[] { joel, matt });
+        }
+       
+
+       [Fact]
+        public void Artie_GoVisitBryanMattAndJoelInThatOrder()
         {
             var birmingham = new Location("Birmingham");
             var canton = new Location("Canton", birmingham);
@@ -68,6 +74,32 @@ namespace visit_canton_coders_tests
             visitor.getRoute(artie).Should().ContainInOrder(new[] { bryan, joel, matt });
 
         }
+
+        [Fact]
+        public void Artie_GoVisitBryanMattJoelBennyInThatOrder()
+        {
+            var nyc = new Location("nyc");
+
+            var birmingham = new Location("Birmingham",nyc);
+            var canton = new Location("Canton", birmingham);
+            var bentonville = new Location("Bentonville", canton);
+            var austin = new Location("Austin", bentonville);
+           
+            
+            var benny = new Person(nyc);
+
+            var artie = new Person(austin);
+            var joel = new Person(canton);
+            var matt = new Person(birmingham);
+            var bryan = new Person(bentonville);
+
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { benny,joel, matt, bryan });
+            visitor.getRoute(artie).Should().ContainInOrder(new[] { bryan, joel, matt, benny });
+
+        }
+
+
+
 
 
 
