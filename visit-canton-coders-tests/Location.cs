@@ -1,18 +1,27 @@
-﻿namespace visit_canton_coders_tests
+﻿using System.Collections.Generic;
+
+namespace visit_canton_coders_tests
 {
     internal class Location
     {
         private string v;
-        public Location NextLocation { get; private set; }
 
+        public IEnumerable<Location> NextLocations { get; private set; }
         public Location(string v)
         {
             this.v = v;
+            this.NextLocations = new Location[] { };
         }
 
         public Location(string v, Location nextLocation) : this(v)
         {
-            NextLocation = nextLocation;
+            this.v = v;
+            this.NextLocations = new[] { nextLocation };
+        }
+
+        public Location(string v, Location[] locations) : this(v)
+        {
+            this.NextLocations = locations;
         }
     }
 }

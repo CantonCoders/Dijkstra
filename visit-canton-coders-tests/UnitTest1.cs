@@ -76,10 +76,10 @@ namespace visit_canton_coders_tests
         }
 
         [Fact]
-        public void Artie_GoVisitBryanMattJoelBennyInThatOrder()
+        public void Artie_GoVisitBryanMattJoelBennyButNotJimInThatOrder()
         {
             var nyc = new Location("nyc");
-
+            var island = new Location("island");
             var birmingham = new Location("Birmingham",nyc);
             var canton = new Location("Canton", birmingham);
             var bentonville = new Location("Bentonville", canton);
@@ -87,13 +87,13 @@ namespace visit_canton_coders_tests
            
             
             var benny = new Person(nyc);
-
+            var jim = new Person(island);
             var artie = new Person(austin);
             var joel = new Person(canton);
             var matt = new Person(birmingham);
             var bryan = new Person(bentonville);
 
-            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { benny,joel, matt, bryan });
+            CantonCoderVisitor visitor = new CantonCoderVisitor(new[] { benny,joel, jim, matt, bryan });
             visitor.getRoute(artie).Should().ContainInOrder(new[] { bryan, joel, matt, benny });
 
         }
@@ -107,9 +107,9 @@ namespace visit_canton_coders_tests
         public void Test_People()
         {
             var nextLocation = new Location("Texas");
-            var location = new Location("Hollywoo", nextLocation);
+            var location = new Location("Hollywoo", new Location[] { nextLocation });
 
-            location.NextLocation.Should().Be(nextLocation);
+            location.NextLocations.Should().ContainInOrder(new[] { nextLocation });
             Person person = new Person(location);
             person.Location.Should().Be(location);
             person.Should().NotBeNull();

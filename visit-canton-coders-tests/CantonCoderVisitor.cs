@@ -14,42 +14,22 @@ namespace visit_canton_coders_tests
 
 
 
-        internal IEnumerable<Person> getRoute(Person artie)
+        internal IEnumerable<Person> getRoute(Person visitor)
         {
-
-            var rv = new List<Person>();
-            var whereAmI = artie.Location;
-            Person nextperson = getNextPerson(whereAmI);
-
-            whereAmI = nextperson.Location;
-
-            var nextnextperson = getNextPerson(whereAmI);
-            
-            if(nextnextperson==null)
+            var nextperson = getNextPerson(visitor);
+            while(nextperson != null)
             {
-                return new[] { nextperson };
+                yield return nextperson;
+                nextperson = getNextPerson(nextperson);
             }
-            whereAmI = nextnextperson.Location;
-
-            var nextnextnextperson = getNextPerson(whereAmI);
-            
-            if(nextnextnextperson == null)
-                return new[] { nextperson, nextnextperson, nextnextnextperson };
-
-            whereAmI = nextnextnextperson.Location;
-
-            var nextnextnextnextPerson = getNextPerson(whereAmI);
-            return new[] { nextperson, nextnextperson, nextnextnextperson, nextnextnextnextPerson };
-           
-
-
-
-
         }
-
+        private Person getNextPerson(Person person)
+        {
+            return getNextPerson(person.Location);
+        }
         private Person getNextPerson(Location whereAmI)
         {
-            return potentialListOfPeople.Where(c => c.Location == whereAmI.NextLocation).SingleOrDefault();
+            return potentialListOfPeople.Where(c => c.Location == whereAmI.NextLocations.SingleOrDefault()).SingleOrDefault();
         }
 
 
